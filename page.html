@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abheer Dey — Full Stack Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button type="button" class="copy-page-btn" aria-label="Copy page content for AI tools">
+    <span class="copy-page-btn__pulse" aria-hidden="true"></span>
+    <span class="copy-page-btn__icon" aria-hidden="true">
+      <i data-lucide="copy"></i>
+    </span>
+    <span class="copy-page-btn__text">
+      <span class="copy-page-btn__label">Copy page</span>
+      <!-- <span class="copy-page-btn__hint">LLM-ready text</span> -->
+    </span>
+    <span class="copy-page-btn__status" aria-live="polite">Ready</span>
+  </button>
+
+  <div class="first-screen">
+  <!-- Single background layer: light left + black diagonal (right half), behind everything -->
+  <div class="screen-bg" aria-hidden="true">
+    <div class="screen-bg-light"></div>
+    <img src="assets/rectangle.svg" alt="" class="screen-bg-diagonal" />
+    <div class="screen-bg-mobile-diagonal" aria-hidden="true"></div>
+  </div>
+
+  <header class="header">
+    <a href="/page.html" class="logo" aria-label="Home">AB</a>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span class="nav-toggle-line"></span>
+      <span class="nav-toggle-line"></span>
+      <span class="nav-toggle-line"></span>
+    </button>
+    <nav class="nav">
+      <a href="#about"><i data-lucide="user" aria-hidden="true"></i><span>About me</span></a>
+      <a href="#skills"><i data-lucide="code" aria-hidden="true"></i><span>Skills</span></a>
+      <a href="#experience"><i data-lucide="briefcase" aria-hidden="true"></i><span>Experience</span></a>
+      <a href="abheer_dey_resume.pdf" download="Abheer_Dey_Resume.pdf"><i data-lucide="file-down" aria-hidden="true"></i><span>Portfolio</span></a>
+      <a href="#contact" class="btn-contact"><i data-lucide="mail" aria-hidden="true"></i><span>CONTACT ME</span></a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <div class="hero-photo">
+      <img src="assets/self.png" alt="Abheer Dey" class="hero-photo-img" />
+    </div>
+    <div class="hero-content">
+      <p class="hero-greeting">Hi, I am</p>
+      <h1 class="hero-name">Abheer Dey</h1>
+      <p class="hero-title">Full Stack Software Engineer / AI-Focused Builder</p>
+      <div class="hero-social">
+        <a href="mailto:msitabheerdey@gmail.com" class="social-btn" aria-label="Email">
+          <i data-lucide="mail" aria-hidden="true"></i>
+        </a>
+        <a href="tel:+918287247630" class="social-btn" aria-label="Phone">
+          <i data-lucide="phone" aria-hidden="true"></i>
+        </a>
+        <a href="https://maps.google.com/?q=New+Delhi,+India" class="social-btn" aria-label="New Delhi, India" target="_blank" rel="noopener">
+          <i data-lucide="map-pin" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <h2 class="footer-title">PROFILE SUMMARY</h2>
+      <p class="footer-desc">Full Stack Software Engineer with 1+ years of experience building AI-powered web applications, scalable REST APIs, and automated testing systems using the MERN stack, Python, and FastAPI.</p>
+      <a href="#portfolio" class="footer-cta">| VIEW PROJECTS |</a>
+    </div>
+  </footer>
+  </div>
+
+  <div class="scroll-spacer scroll-spacer-first" aria-hidden="true"></div>
+
+  <section class="about" id="about">
+    <div class="about-inner">
+      <h2 class="about-title">ABOUT ME</h2>
+      <p class="about-desc">I am a Full Stack Software Engineer based in New Delhi, India, building AI-powered products, scalable APIs, and practical automation systems. I completed my B.Tech in Computer Science &amp; Engineering from Maharaja Surajmal Institute of Technology with a 9.3 CGPA, and I enjoy turning modern web technologies and applied AI into real product impact.</p>
+      <a href="#portfolio" class="about-explore">| EXPLORE |</a>
+      <div class="about-sep" aria-hidden="true">
+        <span class="about-sep-line"></span>
+        <i data-lucide="sparkles" class="about-sep-icon"></i>
+        <span class="about-sep-line"></span>
+      </div>
+
+      <div class="about-services">
+        <article class="service-card">
+          <div class="service-icon" aria-hidden="true">
+            <i data-lucide="pen-tool" stroke-width="1.5"></i>
+          </div>
+          <h3 class="service-title">FULL STACK</h3>
+          <p class="service-desc">I build end-to-end products with React.js, Next.js, Node.js, FastAPI, PostgreSQL, and MongoDB, covering both polished interfaces and reliable backend systems.</p>
+        </article>
+        <article class="service-card">
+          <div class="service-icon" aria-hidden="true">
+            <i data-lucide="terminal" stroke-width="1.5"></i>
+          </div>
+          <h3 class="service-title">AI INTEGRATION</h3>
+          <p class="service-desc">I work with OpenAI, AWS Bedrock, RAG pipelines, LangChain, and prompt engineering to ship AI features that improve product workflows.</p>
+        </article>
+        <article class="service-card">
+          <div class="service-icon" aria-hidden="true">
+            <i data-lucide="settings" stroke-width="1.5"></i>
+          </div>
+          <h3 class="service-title">PERFORMANCE</h3>
+          <p class="service-desc">I focus on performance optimization, automated testing, and clean API design to make products faster, more reliable, and easier to scale.</p>
+        </article>
+      </div>
+
+      <div class="about-sep about-sep-bottom" aria-hidden="true">
+        <span class="about-sep-line"></span>
+        <i data-lucide="sparkles" class="about-sep-icon" ></i>
+        <span class="about-sep-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills-section" id="skills">
+    <div class="skills-inner">
+      <h2 class="skills-title">TECHNICAL SKILLS</h2>
+      <div class="skills-groups" id="skills-groups"></div>
+    </div>
+  </section>
+
+  <section class="portfolio-section" id="portfolio">
+    <div class="portfolio-inner">
+      <h2 class="portfolio-title">PORTFOLIO</h2>
+      <p class="portfolio-intro">Selected projects spanning AI automation, SaaS platforms, and full stack product engineering.</p>
+      <div class="portfolio-list">
+        <article class="portfolio-card">
+          <h3 class="portfolio-card-title">Mr. White</h3>
+          <p class="portfolio-card-meta">Pet Health Platform</p>
+          <p class="portfolio-card-desc">Built a subscription-based SaaS platform for managing pet health records with role-based access and Stripe billing, serving 200+ test users.</p>
+          <div class="experience-tags">
+            <span class="experience-tag">Next.js</span>
+            <span class="experience-tag">Python</span>
+            <span class="experience-tag">FastAPI</span>
+            <span class="experience-tag">AWS Bedrock</span>
+            <span class="experience-tag">PostgreSQL</span>
+            <span class="experience-tag">Stripe</span>
+          </div>
+        </article>
+        <article class="portfolio-card">
+          <h3 class="portfolio-card-title">Smart Document Management System</h3>
+          <p class="portfolio-card-meta">AI Search &amp; Classification Platform</p>
+          <p class="portfolio-card-desc">Engineered an AI system that auto-classifies documents with 95%+ accuracy and delivers semantic search with AI-generated summaries to cut retrieval time by 3x.</p>
+          <div class="experience-tags">
+            <span class="experience-tag">React.js</span>
+            <span class="experience-tag">Python</span>
+            <span class="experience-tag">FastAPI</span>
+            <span class="experience-tag">OpenAI</span>
+            <span class="experience-tag">PostgreSQL</span>
+          </div>
+        </article>
+        <article class="portfolio-card">
+          <h3 class="portfolio-card-title">BloggingPedia</h3>
+          <p class="portfolio-card-meta">Full Stack Blogging Platform</p>
+          <p class="portfolio-card-desc">Designed and deployed a responsive blogging platform with real-time comments, user profiles, Google OAuth authentication, and role-based authorization tested for 500+ concurrent users.</p>
+          <div class="experience-tags">
+            <span class="experience-tag">Next.js</span>
+            <span class="experience-tag">JavaScript</span>
+            <span class="experience-tag">Prisma</span>
+            <span class="experience-tag">PostgreSQL</span>
+            <span class="experience-tag">Google OAuth</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience-section" id="experience">
+    <div class="experience-inner">
+      <h2 class="experience-title">EXPERIENCE</h2>
+      <div class="experience-tabs" role="tablist" aria-label="Experience tabs">
+        <button type="button" class="experience-tab is-active" role="tab" aria-selected="true" aria-controls="experience-panel" data-tab-target="experience-panel">Experience</button>
+        <button type="button" class="experience-tab" role="tab" aria-selected="false" aria-controls="certification-panel" data-tab-target="certification-panel">Certifications</button>
+      </div>
+      <div class="experience-panels">
+        <div class="experience-panel is-active" id="experience-panel" role="tabpanel">
+          <div class="experience-list">
+            <article class="experience-item">
+              <h3 class="experience-role">Full Stack Developer</h3>
+              <p class="experience-meta">Excellence Technologies · Noida · Feb 2025 – Present</p>
+              <p class="experience-desc">Engineered AI-powered web applications integrating OpenAI and AWS Bedrock with RAG pipelines, reducing manual workflow processing time by around 40%. Also led performance optimization of multi-step test execution in the ContextQA platform, cutting step latency by over 60% through caching and improved interaction handling.</p>
+              <div class="experience-tags">
+                <span class="experience-tag">OpenAI</span>
+                <span class="experience-tag">AWS Bedrock</span>
+                <span class="experience-tag">RAG</span>
+                <span class="experience-tag">FastAPI</span>
+                <span class="experience-tag">ContextQA</span>
+              </div>
+            </article>
+            <article class="experience-item">
+              <h3 class="experience-role">Frontend Developer Intern</h3>
+              <p class="experience-meta">Corizo Edtech · Noida · Aug 2023 – Oct 2023</p>
+              <p class="experience-desc">Delivered 12+ responsive UI components using React.js, CSS, and JavaScript within a 4-member agile team, shipping features two weeks ahead of schedule. Redesigned 5 core LMS frontend modules and supported backend and database integration with Node.js and MongoDB.</p>
+              <div class="experience-tags">
+                <span class="experience-tag">React.js</span>
+                <span class="experience-tag">CSS</span>
+                <span class="experience-tag">JavaScript</span>
+                <span class="experience-tag">Node.js</span>
+                <span class="experience-tag">MongoDB</span>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="experience-panel" id="certification-panel" role="tabpanel" hidden>
+          <div class="experience-list">
+            <article class="experience-item">
+              <h3 class="experience-role">MERN Stack Web Development</h3>
+              <p class="experience-meta">Brain Mentors, New Delhi · Aug – Sep 2022</p>
+              <p class="experience-desc">Completed hands-on training focused on MERN stack fundamentals, frontend architecture, backend integration, and practical web application development workflows.</p>
+              <div class="experience-tags">
+                <span class="experience-tag">MongoDB</span>
+                <span class="experience-tag">Express.js</span>
+                <span class="experience-tag">React.js</span>
+                <span class="experience-tag">Node.js</span>
+              </div>
+            </article>
+            <article class="experience-item">
+              <h3 class="experience-role">Data Science &amp; Machine Learning</h3>
+              <p class="experience-meta">Coding Ninjas (Remote) · Dec 2022 – Jul 2023</p>
+              <p class="experience-desc">Covered core data science workflows, machine learning foundations, dataset handling, and model-building concepts through a structured remote training program.</p>
+              <div class="experience-tags">
+                <span class="experience-tag">Python</span>
+                <span class="experience-tag">Data Science</span>
+                <span class="experience-tag">Machine Learning</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <h2 class="contact-title">CONTACT</h2>
+      <p class="contact-intro">Based in New Delhi, India. Open to Full Stack Software Engineer and AI Engineer opportunities. Reach me at msitabheerdey@gmail.com or +91-8287247630.</p>
+      <div class="contact-sep" aria-hidden="true">
+        <span class="contact-sep-line"></span>
+        <i data-lucide="sparkles" class="contact-sep-icon"></i>
+        <span class="contact-sep-line"></span>
+      </div>
+
+      <!-- Formspree endpoint configured for contact submissions -->
+      <form class="contact-form" action="https://formspree.io/f/xdalvokj" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="Portfolio contact form submission" />
+        <div class="contact-field">
+          <label for="contact-name">ENTER YOUR NAME *</label>
+          <input type="text" id="contact-name" name="name" required placeholder=" " autocomplete="name" />
+        </div>
+        <div class="contact-field">
+          <label for="contact-email">ENTER YOUR EMAIL *</label>
+          <input type="email" id="contact-email" name="email" required placeholder=" " autocomplete="email" />
+        </div>
+        <div class="contact-field">
+          <label for="contact-phone">PHONE NUMBER</label>
+          <input type="tel" id="contact-phone" name="phone" placeholder=" " autocomplete="tel" />
+        </div>
+        <div class="contact-field">
+          <label for="contact-message">YOUR MESSAGE *</label>
+          <textarea id="contact-message" name="message" rows="5" required placeholder=" "></textarea>
+        </div>
+        <button type="submit" class="contact-submit">| SUBMIT |</button>
+        <p class="contact-form-status" aria-live="polite" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <a href="#" class="footer-back-top" aria-label="Back to top">
+      <span class="footer-caret">^</span>
+      <span class="footer-back-text">BACK TO TOP</span>
+    </a>
+    <div class="footer-social">
+      <a href="mailto:msitabheerdey@gmail.com" class="footer-social-link" aria-label="Email">
+        <i data-lucide="mail" aria-hidden="true"></i>
+      </a>
+      <a href="tel:+918287247630" class="footer-social-link" aria-label="Phone">
+        <i data-lucide="phone" aria-hidden="true"></i>
+      </a>
+      <a href="https://maps.google.com/?q=New+Delhi,+India" class="footer-social-link" aria-label="New Delhi, India" target="_blank" rel="noopener">
+        <i data-lucide="map-pin" aria-hidden="true"></i>
+      </a>
+      <a href="#portfolio" class="footer-social-link" aria-label="Portfolio">
+        <i data-lucide="briefcase" aria-hidden="true"></i>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Abheer Dey. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
