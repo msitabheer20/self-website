@@ -403,11 +403,16 @@ if (!prefersReducedMotion && typeof gsap !== "undefined" && typeof ScrollTrigger
 
 var copyPageBtn = document.querySelector(".copy-page-btn");
 if (copyPageBtn) {
-  var copyPageLabel = copyPageBtn.querySelector(".copy-page-btn__label");
   var copyPageStatus = copyPageBtn.querySelector(".copy-page-btn__status");
   var copyPageIcon = copyPageBtn.querySelector(".copy-page-btn__icon");
   var copyPagePulse = copyPageBtn.querySelector(".copy-page-btn__pulse");
   var copyResetTimer = null;
+  var defaultCopyLabel = "Copy page content";
+
+  function setCopyButtonLabel(label) {
+    copyPageBtn.setAttribute("aria-label", label);
+    copyPageBtn.setAttribute("title", label);
+  }
 
   function cleanText(text) {
     return text ? text.replace(/\s+/g, " ").trim() : "";
@@ -520,8 +525,8 @@ if (copyPageBtn) {
 
   function resetCopyState() {
     copyPageBtn.classList.remove("is-copied");
-    if (copyPageLabel) copyPageLabel.textContent = "Copy page";
     if (copyPageStatus) copyPageStatus.textContent = "Ready";
+    setCopyButtonLabel(defaultCopyLabel);
   }
 
   if (!prefersReducedMotion && typeof gsap !== "undefined") {
@@ -557,12 +562,13 @@ if (copyPageBtn) {
   copyPageBtn.addEventListener("click", function () {
     var textToCopy = buildPortfolioCopy();
     if (copyPageStatus) copyPageStatus.textContent = "Copying";
+    setCopyButtonLabel("Copying page content");
 
     copyText(textToCopy)
       .then(function () {
         copyPageBtn.classList.add("is-copied");
-        if (copyPageLabel) copyPageLabel.textContent = "Copied";
         if (copyPageStatus) copyPageStatus.textContent = "Copied";
+        setCopyButtonLabel("Page content copied");
 
         if (!prefersReducedMotion && typeof gsap !== "undefined" && copyPageIcon) {
           gsap.fromTo(copyPageIcon,
@@ -583,8 +589,8 @@ if (copyPageBtn) {
         copyResetTimer = window.setTimeout(resetCopyState, 2200);
       })
       .catch(function () {
-        if (copyPageLabel) copyPageLabel.textContent = "Try again";
         if (copyPageStatus) copyPageStatus.textContent = "Failed";
+        setCopyButtonLabel("Copy failed, try again");
         window.clearTimeout(copyResetTimer);
         copyResetTimer = window.setTimeout(resetCopyState, 2200);
       });

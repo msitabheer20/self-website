@@ -10,16 +10,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button type="button" class="copy-page-btn" aria-label="Copy page content for AI tools">
+  <button type="button" class="copy-page-btn" aria-label="Copy page content for AI tools" title="Copy page content">
     <span class="copy-page-btn__pulse" aria-hidden="true"></span>
     <span class="copy-page-btn__icon" aria-hidden="true">
       <i data-lucide="copy"></i>
     </span>
-    <span class="copy-page-btn__text">
-      <span class="copy-page-btn__label">Copy page</span>
-      <!-- <span class="copy-page-btn__hint">LLM-ready text</span> -->
-    </span>
-    <span class="copy-page-btn__status" aria-live="polite">Ready</span>
+    <span class="copy-page-btn__status sr-only" aria-live="polite">Ready</span>
   </button>
 
   <div class="first-screen">
