@@ -8,6 +8,8 @@
   --text-light: #6b6b6b;
   --text-white: #ffffff;
   --accent-white: #ffffff;
+  --accent: #6366f1;
+  --accent-muted: rgba(99, 102, 241, 0.1);
   --font-sans: "DM Sans", system-ui, sans-serif;
 }
 
@@ -219,7 +221,8 @@ body {
 }
 
 .header .logo:hover {
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.5);
+  border-color: var(--accent);
 }
 
 .nav {
@@ -236,6 +239,22 @@ body {
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
+  position: relative;
+}
+
+.nav a:not(.btn-contact)::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+
+.nav a:not(.btn-contact):hover::after {
+  width: 100%;
 }
 
 .nav a svg {
@@ -247,7 +266,7 @@ body {
 }
 
 .nav a:hover {
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .btn-contact {
@@ -332,7 +351,7 @@ body {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
   font-weight: 500;
-  color: var(--text-dark);
+  color: var(--accent);
 }
 
 .hero-name {
@@ -373,8 +392,9 @@ body {
 }
 
 .social-btn:hover {
-  background: var(--text-dark);
+  background: var(--accent);
   color: var(--accent-white);
+  border-color: var(--accent);
 }
 
 .social-btn svg {
@@ -415,16 +435,28 @@ body {
 }
 
 .footer-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   color: var(--text-white);
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-decoration: none;
+  transition: gap 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-cta::after {
+  content: '→';
+  transition: transform 0.2s ease;
 }
 
 .footer-cta:hover {
-  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.footer-cta:hover::after {
+  transform: translateX(3px);
 }
 
 .footer-bg-logo {
@@ -699,8 +731,15 @@ body {
 .portfolio-card {
   padding: 1.35rem;
   border: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 3px solid var(--accent);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.55);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
 }
 
 .portfolio-card-title {
@@ -779,9 +818,14 @@ body {
   transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.experience-tab.is-active,
-.experience-tab:hover {
-  background: rgba(255, 255, 255, 0.14);
+.experience-tab.is-active {
+  background: var(--accent);
+  color: var(--text-white);
+  border-color: var(--accent);
+}
+
+.experience-tab:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-white);
   border-color: rgba(255, 255, 255, 0.4);
 }
@@ -866,7 +910,8 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 .experience-section .experience-item {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.15);
+  border-left: 3px solid var(--accent);
   background: rgba(255, 255, 255, 0.06);
 }
 .experience-section .experience-tag {
@@ -981,8 +1026,8 @@ body {
 .contact-field input:focus,
 .contact-field textarea:focus {
   outline: none;
-  border-bottom-color: var(--text-dark);
-  box-shadow: 0 2px 0 0 var(--text-dark);
+  border-bottom-color: var(--accent);
+  box-shadow: 0 2px 0 0 var(--accent);
 }
 
 .contact-field textarea {
@@ -994,36 +1039,41 @@ body {
 }
 
 .contact-field textarea:focus {
-  box-shadow: 0 0 0 2px var(--text-dark);
+  box-shadow: 0 0 0 2px var(--accent);
+  border-color: var(--accent);
 }
 
 .contact-submit {
   align-self: center;
   margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 2.5rem;
   font-family: var(--font-sans);
   font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-dark);
-  background: transparent;
-  border: none;
+  color: var(--text-white);
+  background: var(--text-dark);
+  border: 2px solid var(--text-dark);
+  border-radius: 9999px;
   cursor: pointer;
-  transition: opacity 0.25s ease, transform 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .contact-submit:hover {
-  opacity: 0.8;
-  transform: scale(1.02);
+  background: transparent;
+  color: var(--text-dark);
+  transform: none;
+  opacity: 1;
+  box-shadow: none;
 }
 
 .contact-submit:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .contact-submit:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -1062,8 +1112,21 @@ body {
 }
 
 .footer-caret {
-  font-size: 1.25rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-caret svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  stroke: currentColor;
+  fill: none;
+  transition: transform 0.2s ease;
+}
+
+.footer-back-top:hover .footer-caret svg {
+  transform: translateY(-3px);
 }
 
 .footer-back-text {
@@ -1090,8 +1153,9 @@ body {
 }
 
 .footer-social-link:hover {
-  opacity: 0.9;
-  background: rgba(255, 255, 255, 0.08);
+  opacity: 1;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .footer-social-link svg {
@@ -1130,17 +1194,29 @@ body {
 }
 
 .about-explore {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--text-dark);
   text-decoration: none;
+  transition: gap 0.2s ease, opacity 0.2s ease;
+}
+
+.about-explore::after {
+  content: '→';
+  transition: transform 0.2s ease;
 }
 
 .about-explore:hover {
-  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.about-explore:hover::after {
+  transform: translateX(3px);
 }
 
 .about-sep {
@@ -1202,7 +1278,7 @@ body {
   color: rgba(255, 255, 255, 0.8);
 }
 .about .service-card .service-icon {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--accent);
 }
 
 .about-services {
@@ -1226,6 +1302,12 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.5);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
 }
 
 .service-card .service-icon {
@@ -1315,6 +1397,14 @@ body {
   align-items: center;
   gap: 0.4rem;
   cursor: default;
+  padding: 0.6rem 0.4rem;
+  border-radius: 10px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.skill-item:hover {
+  background: var(--accent-muted);
+  transform: translateY(-2px);
 }
 
 .skill-item .skill-icon {
@@ -1322,7 +1412,7 @@ body {
 }
 
 .skill-item:hover .skill-icon {
-  transform: scale(1.12);
+  transform: scale(1.1);
 }
 
 .skill-icon {
