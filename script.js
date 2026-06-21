@@ -27,9 +27,20 @@ var technicalSkillsData = [
     items: [
       { label: "OPENAI API", icon: "assets/stack/openai.webp" },
       { label: "AWS BEDROCK", icon: "assets/stack/bedrock.png" },
-      { label: "RAG PIPELINES", icon: "assets/stack/js.svg" },
+      { label: "RAG PIPELINES", lucide: "git-merge" },
       { label: "LANGCHAIN", icon: "assets/stack/langchain.png" },
-      { label: "PROMPT ENGINEERING", icon: "assets/stack/js.svg" }
+      { label: "MACHINE LEARNING", lucide: "brain-circuit" }
+    ]
+  },
+  {
+    heading: "DATA & ANALYTICS:",
+    items: [
+      { label: "PYTHON (PANDAS)", icon: "assets/stack/python.png" },
+      { label: "SQL", lucide: "database" },
+      { label: "TABLEAU", lucide: "bar-chart-3" },
+      { label: "POWER BI", lucide: "pie-chart" },
+      { label: "EXCEL", lucide: "table-2" },
+      { label: "STATISTICS", lucide: "trending-up" }
     ]
   },
   {
@@ -42,7 +53,8 @@ var technicalSkillsData = [
       { label: "GIT", icon: "assets/stack/git.png" },
       { label: "DOCKER", icon: "assets/stack/docker.png" },
       { label: "CI/CD", icon: "assets/stack/js.svg" },
-      { label: "CURSOR AI", icon: "assets/stack/cusorai.jpeg" }
+      { label: "CURSOR AI", icon: "assets/stack/cusorai.jpeg" },
+      { label: "CLAUDE CODE", icon: "assets/stack/claude-code.png"}
     ]
   }
 ];
@@ -62,9 +74,12 @@ function renderTechnicalSkills() {
 
   skillsRoot.innerHTML = technicalSkillsData.map(function (group) {
     var itemsMarkup = group.items.map(function (item) {
+      var iconMarkup = item.lucide
+        ? '  <span class="skill-icon skill-icon--lucide" aria-hidden="true"><i data-lucide="' + escapeHtml(item.lucide) + '"></i></span>'
+        : '  <img src="' + escapeHtml(item.icon) + '" alt="" class="skill-icon" aria-hidden="true" />';
       return [
         '<div class="skill-item">',
-        '  <img src="' + escapeHtml(item.icon) + '" alt="" class="skill-icon" aria-hidden="true" />',
+        iconMarkup,
         '  <span class="skill-label">' + escapeHtml(item.label) + "</span>",
         "</div>"
       ].join("");
@@ -80,6 +95,11 @@ function renderTechnicalSkills() {
 }
 
 renderTechnicalSkills();
+
+// Re-render Lucide icons so dynamically-injected skill icons (and any added later) appear.
+if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+  lucide.createIcons();
+}
 
 // --- GSAP animations (respect prefers-reduced-motion) ---
 var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -196,6 +216,19 @@ if (!prefersReducedMotion && typeof gsap !== "undefined" && typeof ScrollTrigger
     duration: 0.45,
     ease: "power2.out",
     delay: 0.3
+  });
+  gsap.from(".about .about-stat", {
+    scrollTrigger: {
+      trigger: ".about-stats",
+      start: "top 70%",
+      toggleActions: "play none none none"
+    },
+    opacity: 0,
+    y: 18,
+    duration: 0.45,
+    ease: "power2.out",
+    stagger: 0.08,
+    delay: 0.15
   });
   gsap.from(".about .service-card", {
     scrollTrigger: {
