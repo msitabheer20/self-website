@@ -16,6 +16,12 @@
       } catch (e) {}
     })();
   </script>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0c0c0d" media="(prefers-color-scheme: dark)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -352,7 +358,8 @@
   </div>
 </footer>
 
-<!-- ============ Floating controls ============ -->
+<!-- Kept outside <header>: its backdrop-filter would become the containing
+     block for these fixed buttons and break their positioning. -->
 <div class="controls">
   <button type="button" class="ctl theme-toggle" aria-label="Switch between light and dark theme" title="Switch theme">
     <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"><i data-lucide="moon"></i></span>

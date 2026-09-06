@@ -390,8 +390,13 @@ a { color: inherit; text-decoration: none; }
 
 .stat {
   background: var(--paper);
-  padding: 1.75rem 1.25rem 1.5rem 0;
+  padding: 1.75rem 1.25rem 1.5rem;
 }
+
+/* The cell edge is the divider line, so every cell is inset from it — except
+   the first in each row, which must stay flush with the page's left margin.
+   Which cells those are changes with the column count. */
+.stat:first-child { padding-left: 0; }
 .stat-label { display: block; margin-bottom: 0.4rem; }
 .stat-num {
   margin: 0;
@@ -742,17 +747,18 @@ a { color: inherit; text-decoration: none; }
   .hero-portrait {
     justify-self: start;
     order: -1;
-    width: 6.5rem;
-    max-width: 6.5rem;
+    width: 9.5rem;
+    max-width: 9.5rem;
     aspect-ratio: 1;
     border-radius: 50%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.9rem;
   }
   .hero-portrait-img { object-position: center 8%; }
   .about-grid,
   .contact-grid { grid-template-columns: 1fr; }
   .capabilities { grid-template-columns: 1fr; gap: 1.75rem; }
   .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(odd) { padding-left: 0; }
   .work-row { grid-template-columns: 2.25rem minmax(0, 1fr); }
   .work-year { display: none; }
   .entry { grid-template-columns: 1fr; gap: 0.75rem; }
@@ -777,7 +783,25 @@ a { color: inherit; text-decoration: none; }
   .nav a { padding: 0.85rem 0; border-bottom: 1px solid var(--rule-soft); font-size: var(--fs-md); }
   .nav-cta { border: 1px solid var(--rule); margin-top: 0.85rem; justify-content: center; }
 
-  .hero { padding-top: 6rem; }
+  /* Docked beside the hamburger so they never cover the hero CTAs. */
+  .controls {
+    top: 1.15rem;
+    right: 4.25rem;
+    bottom: auto;
+    z-index: 60;
+    flex-direction: row;
+    gap: 0.35rem;
+  }
+  .ctl {
+    width: 2.25rem;
+    height: 2.25rem;
+    background: none;
+    backdrop-filter: none;
+  }
+  .ctl svg { width: 0.95rem; height: 0.95rem; }
+
+  .hero { padding-top: 4.5rem; }
+  .hero-grid { padding-block: 1.25rem; }
   .hero-foot-row { gap: 0.4rem 1.5rem; }
 
   /* Touch devices get the inline thumbnail instead of a cursor preview */
@@ -787,7 +811,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 360px) {
   .stats { grid-template-columns: 1fr; }
-  .stat { padding-block: 1.25rem; }
+  .stat { padding-block: 1.25rem; padding-left: 0; }
 }
 
 /* ---------- Reduced motion ---------- */
