@@ -4,6 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Abheer Dey — Software Engineer | AI & Data</title>
+  <script>
+    /* Applied before first paint so the chosen theme never flashes. */
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || t === "light") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
@@ -16,6 +27,11 @@
       <i data-lucide="copy"></i>
     </span>
     <span class="copy-page-btn__status sr-only" aria-live="polite">Ready</span>
+  </button>
+
+  <button type="button" class="theme-toggle" aria-label="Switch between light and dark theme" title="Switch theme">
+    <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"><i data-lucide="moon"></i></span>
+    <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"><i data-lucide="sun"></i></span>
   </button>
 
   <div class="first-screen">
@@ -221,7 +237,7 @@
               <span class="experience-tag">PostgreSQL</span>
             </div>
             <div class="portfolio-card-links">
-              <a href="#" class="portfolio-link" target="_blank" rel="noopener"><i data-lucide="github" aria-hidden="true"></i><span>Code</span></a>
+              <a href="#" class="portfolio-link" target="_blank" rel="noopener"><i data-lucide="git-branch" aria-hidden="true"></i><span>Code</span></a>
             </div>
           </div>
         </article>
@@ -395,7 +411,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/lucide@1.41.0/dist/umd/lucide.min.js"></script>
   <script>
     if (typeof lucide !== 'undefined') lucide.createIcons();
   </script>

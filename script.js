@@ -876,3 +876,41 @@ if (navToggle && header && nav) {
     navToggle.setAttribute("aria-expanded", open);
   });
 }
+
+/* --- Theme toggle -------------------------------------------------------
+   The initial theme is applied by the inline script in <head> so it lands
+   before first paint. This only wires the button and persists the choice. */
+(function () {
+  var toggle = document.querySelector(".theme-toggle");
+  if (!toggle) return;
+
+  var root = document.documentElement;
+  var media = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function currentTheme() {
+    var set = root.getAttribute("data-theme");
+    if (set === "dark" || set === "light") return set;
+    return media.matches ? "dark" : "light";
+  }
+
+  function label() {
+    var next = currentTheme() === "dark" ? "light" : "dark";
+    toggle.setAttribute("aria-label", "Switch to " + next + " theme");
+  }
+
+  toggle.addEventListener("click", function () {
+    var next = currentTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch (e) {}
+    label();
+  });
+
+  // Follow the OS only while the visitor has not made an explicit choice.
+  media.addEventListener("change", function () {
+    if (!root.hasAttribute("data-theme")) label();
+  });
+
+  label();
+})();
