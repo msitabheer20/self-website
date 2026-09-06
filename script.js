@@ -59,6 +59,25 @@ var technicalSkillsData = [
   }
 ];
 
+/* The skill data is authored in caps; render proper product casing instead. */
+var SKILL_LABELS = {
+  "HTML5": "HTML5", "CSS3": "CSS3", "JAVASCRIPT": "JavaScript",
+  "REACT.JS": "React.js", "NEXT.JS": "Next.js", "TYPESCRIPT": "TypeScript",
+  "TAILWIND CSS": "Tailwind CSS", "NODEJS": "Node.js", "EXPRESS.JS": "Express.js",
+  "PYTHON": "Python", "FASTAPI": "FastAPI", "REST APIS": "REST APIs",
+  "WEBSOCKETS": "WebSockets", "OPENAI API": "OpenAI API", "AWS BEDROCK": "AWS Bedrock",
+  "RAG PIPELINES": "RAG pipelines", "LANGCHAIN": "LangChain",
+  "MACHINE LEARNING": "Machine learning", "PYTHON (PANDAS)": "Python (pandas)",
+  "SQL": "SQL", "TABLEAU": "Tableau", "POWER BI": "Power BI", "EXCEL": "Excel",
+  "STATISTICS": "Statistics", "POSTGRESQL": "PostgreSQL", "MONGODB": "MongoDB",
+  "MYSQL": "MySQL", "PRISMA ORM": "Prisma ORM", "GIT": "Git", "DOCKER": "Docker",
+  "CI/CD": "CI/CD", "CURSOR AI": "Cursor AI", "CLAUDE CODE": "Claude Code"
+};
+
+function displaySkillLabel(label) {
+  return SKILL_LABELS[label] || label;
+}
+
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -80,14 +99,14 @@ function renderTechnicalSkills() {
       return [
         '<div class="skill-item">',
         iconMarkup,
-        '  <span class="skill-label">' + escapeHtml(item.label) + "</span>",
+        '  <span class="skill-label">' + escapeHtml(displaySkillLabel(item.label)) + "</span>",
         "</div>"
       ].join("");
     }).join("");
 
     return [
       '<div class="skill-group">',
-      '  <h3 class="skill-group-heading">' + escapeHtml(group.heading) + "</h3>",
+      '  <h3 class="skill-group-heading">' + escapeHtml(group.heading.replace(/:$/, "")) + "</h3>",
       '  <div class="skill-grid">' + itemsMarkup + "</div>",
       "</div>"
     ].join("");
@@ -96,349 +115,131 @@ function renderTechnicalSkills() {
 
 renderTechnicalSkills();
 
-// Re-render Lucide icons so dynamically-injected skill icons (and any added later) appear.
+renderTechnicalSkills();
+
 if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
   lucide.createIcons();
 }
 
-// --- GSAP animations (respect prefers-reduced-motion) ---
 var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (!prefersReducedMotion && typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
 
-  // First screen: subtle load animation
-  var firstScreen = document.querySelector(".first-screen");
-  if (firstScreen) {
-    gsap.from(".header .logo", {
-      opacity: 0,
-      y: -12,
-      duration: 0.5,
-      ease: "power2.out",
-      delay: 0.1
-    });
-    gsap.from(".nav a, .nav-toggle", {
-      opacity: 0,
-      y: -12,
-      duration: 0.5,
-      ease: "power2.out",
-      delay: 0.15,
-      stagger: 0.05
-    });
-    gsap.from(".hero-photo-img", {
-      opacity: 0,
-      scale: 0.98,
-      duration: 0.8,
-      ease: "power2.out",
-      delay: 0.2
-    });
-    gsap.from(".hero-greeting", {
-      opacity: 0,
-      y: 16,
-      duration: 0.5,
-      ease: "power2.out",
-      delay: 0.35
-    });
-    gsap.from(".hero-name", {
-      opacity: 0,
-      y: 16,
-      duration: 0.5,
-      ease: "power2.out",
-      delay: 0.45
-    });
-    gsap.from(".hero-title", {
-      opacity: 0,
-      y: 12,
-      duration: 0.5,
-      ease: "power2.out",
-      delay: 0.55
-    });
-    gsap.from(".hero-social .social-btn", {
-      opacity: 0,
-      y: 12,
-      duration: 0.4,
-      ease: "power2.out",
-      delay: 0.65,
-      stagger: 0.06
-    });
-    gsap.from(".footer", {
-      opacity: 0,
-      y: 8,
-      duration: 0.5,
-      ease: "power2.out",
-      delay: 0.5
-    });
+/* --- Reveal on scroll -----------------------------------------------------
+   Replaces the old GSAP/ScrollTrigger stack. Items within one container are
+   staggered by index so a section resolves as a group rather than all at once. */
+(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+  if (!items.length) return;
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    items.forEach(function (el) { el.classList.add("is-in"); });
+    return;
   }
 
-  // About section: scroll-triggered enter animations
-  gsap.from(".about .about-title", {
-    scrollTrigger: {
-      trigger: ".about",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 24,
-    duration: 0.6,
-    ease: "power2.out"
-  });
-  gsap.from(".about .about-desc", {
-    scrollTrigger: {
-      trigger: ".about",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 20,
-    duration: 0.5,
-    ease: "power2.out",
-    delay: 0.1
-  });
-  gsap.from(".about .about-explore", {
-    scrollTrigger: {
-      trigger: ".about",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 16,
-    duration: 0.45,
-    ease: "power2.out",
-    delay: 0.2
-  });
-  gsap.from(".about .about-sep", {
-    scrollTrigger: {
-      trigger: ".about",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    scale: 0.98,
-    duration: 0.45,
-    ease: "power2.out",
-    delay: 0.3
-  });
-  gsap.from(".about .about-stat", {
-    scrollTrigger: {
-      trigger: ".about-stats",
-      start: "top 70%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 18,
-    duration: 0.45,
-    ease: "power2.out",
-    stagger: 0.08,
-    delay: 0.15
-  });
-  gsap.from(".about .service-card", {
-    scrollTrigger: {
-      trigger: ".about-services",
-      start: "top 58%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 28,
-    duration: 0.5,
-    ease: "power2.out",
-    stagger: 0.1,
-    delay: 0.15
-  });
-  gsap.from(".about .about-sep-bottom", {
-    scrollTrigger: {
-      trigger: ".about-services",
-      start: "top 58%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    duration: 0.4,
-    ease: "power2.out",
-    delay: 0.5
+  // Stagger siblings that share a parent.
+  var seen = new Map();
+  items.forEach(function (el) {
+    var n = seen.get(el.parentNode) || 0;
+    seen.set(el.parentNode, n + 1);
+    el.style.setProperty("--reveal-delay", Math.min(n, 6) * 70 + "ms");
   });
 
-  // Skills section: scroll-triggered enter animations
-  gsap.from(".skills-section .skills-title", {
-    scrollTrigger: {
-      trigger: ".skills-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 24,
-    duration: 0.55,
-    ease: "power2.out"
-  });
-  gsap.from(".skills-section .skill-group", {
-    scrollTrigger: {
-      trigger: ".skills-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 20,
-    duration: 0.5,
-    ease: "power2.out",
-    stagger: 0.12,
-    delay: 0.1
-  });
-  gsap.from(".skills-section .skill-item", {
-    scrollTrigger: {
-      trigger: ".skills-section",
-      start: "top 58%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    scale: 0.92,
-    duration: 0.4,
-    ease: "power2.out",
-    stagger: 0.04,
-    delay: 0.2
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-in");
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+
+  items.forEach(function (el) { io.observe(el); });
+})();
+
+/* --- Header hairline appears once you leave the hero --- */
+(function () {
+  var header = document.querySelector(".header");
+  if (!header) return;
+  var ticking = false;
+  function update() {
+    header.classList.toggle("is-stuck", window.scrollY > 24);
+    ticking = false;
+  }
+  window.addEventListener("scroll", function () {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+})();
+
+/* --- Work index: image preview that follows the cursor -------------------
+   Pointer-fine devices only; touch gets the inline thumbnail via CSS. */
+(function () {
+  var preview = document.querySelector(".work-preview");
+  var list = document.querySelector(".work-list");
+  if (!preview || !list) return;
+  if (prefersReducedMotion) return;
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  var img = preview.querySelector(".work-preview-img");
+  var targetX = 0, targetY = 0, curX = 0, curY = 0;
+  var active = false, raf = null;
+
+  function loop() {
+    // Ease toward the pointer so the preview trails rather than snaps.
+    curX += (targetX - curX) * 0.14;
+    curY += (targetY - curY) * 0.14;
+    preview.style.left = curX + "px";
+    preview.style.top = curY + "px";
+    raf = active ? window.requestAnimationFrame(loop) : null;
+  }
+
+  list.addEventListener("pointermove", function (e) {
+    targetX = e.clientX;
+    targetY = e.clientY;
   });
 
-  // Portfolio section: scroll-triggered enter animations
-  gsap.from(".portfolio-section .portfolio-title", {
-    scrollTrigger: {
-      trigger: ".portfolio-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 24,
-    duration: 0.55,
-    ease: "power2.out"
-  });
-  gsap.from(".portfolio-section .portfolio-intro", {
-    scrollTrigger: {
-      trigger: ".portfolio-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 20,
-    duration: 0.5,
-    ease: "power2.out",
-    delay: 0.08
-  });
-  gsap.from(".portfolio-section .portfolio-card", {
-    scrollTrigger: {
-      trigger: ".portfolio-section",
-      start: "top 58%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 24,
-    duration: 0.5,
-    ease: "power2.out",
-    stagger: 0.1,
-    delay: 0.12
+  Array.prototype.forEach.call(list.querySelectorAll(".work-row"), function (row) {
+    var src = row.getAttribute("data-preview");
+    if (!src) return;
+
+    row.addEventListener("pointerenter", function (e) {
+      if (img.getAttribute("src") !== src) img.setAttribute("src", src);
+      targetX = curX = e.clientX;
+      targetY = curY = e.clientY;
+      preview.style.left = curX + "px";
+      preview.style.top = curY + "px";
+      preview.classList.add("is-visible");
+      if (!active) { active = true; loop(); }
+    });
+
+    row.addEventListener("pointerleave", hide);
   });
 
-  // Experience section: scroll-triggered enter animations
-  gsap.from(".experience-section .experience-title", {
-    scrollTrigger: {
-      trigger: ".experience-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 24,
-    duration: 0.55,
-    ease: "power2.out"
-  });
-  gsap.from(".experience-section .experience-item", {
-    scrollTrigger: {
-      trigger: ".experience-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 20,
-    duration: 0.5,
-    ease: "power2.out",
-    stagger: 0.12,
-    delay: 0.1
-  });
+  function hide() {
+    preview.classList.remove("is-visible");
+    active = false;
+    if (raf) { window.cancelAnimationFrame(raf); raf = null; }
+  }
 
-  gsap.from(".experience-section .experience-tabs", {
-    scrollTrigger: {
-      trigger: ".experience-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 18,
-    duration: 0.45,
-    ease: "power2.out",
-    delay: 0.08
-  });
+  // Leaving the list entirely (e.g. straight out the side) still hides it.
+  list.addEventListener("pointerleave", hide);
 
-  // Contact section: scroll-triggered enter animations
-  gsap.from(".contact-section .contact-title", {
-    scrollTrigger: {
-      trigger: ".contact-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 24,
-    duration: 0.55,
-    ease: "power2.out"
-  });
-  gsap.from(".contact-section .contact-intro", {
-    scrollTrigger: {
-      trigger: ".contact-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 20,
-    duration: 0.5,
-    ease: "power2.out",
-    delay: 0.08
-  });
-  gsap.from(".contact-section .contact-sep", {
-    scrollTrigger: {
-      trigger: ".contact-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    scale: 0.98,
-    duration: 0.45,
-    ease: "power2.out",
-    delay: 0.15
-  });
-  gsap.from(".contact-section .contact-field", {
-    scrollTrigger: {
-      trigger: ".contact-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 16,
-    duration: 0.45,
-    ease: "power2.out",
-    stagger: 0.08,
-    delay: 0.2
-  });
-  gsap.from(".contact-section .contact-submit", {
-    scrollTrigger: {
-      trigger: ".contact-section",
-      start: "top 55%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 12,
-    duration: 0.45,
-    ease: "power2.out",
-    delay: 0.5
-  });
-}
+  // Wheel-scrolling without moving the mouse fires no pointer event, so the
+  // preview would otherwise linger over whatever scrolled underneath it.
+  window.addEventListener("scroll", function () {
+    if (!active) return;
+    var under = document.elementFromPoint(targetX, targetY);
+    var row = under && under.closest ? under.closest(".work-row") : null;
+    if (!row) { hide(); return; }
+    var src = row.getAttribute("data-preview");
+    if (src && img.getAttribute("src") !== src) img.setAttribute("src", src);
+  }, { passive: true });
+})();
 
+/* --- Copy page content for AI tools --- */
 var copyPageBtn = document.querySelector(".copy-page-btn");
 if (copyPageBtn) {
   var copyPageStatus = copyPageBtn.querySelector(".copy-page-btn__status");
-  var copyPageIcon = copyPageBtn.querySelector(".copy-page-btn__icon");
-  var copyPagePulse = copyPageBtn.querySelector(".copy-page-btn__pulse");
   var copyResetTimer = null;
   var defaultCopyLabel = "Copy page content";
 
@@ -452,79 +253,83 @@ if (copyPageBtn) {
   }
 
   function getText(selector, root) {
-    var scope = root || document;
-    var el = scope.querySelector(selector);
+    var el = (root || document).querySelector(selector);
     return el ? cleanText(el.textContent) : "";
   }
 
   function getTexts(selector, root) {
-    var scope = root || document;
-    return Array.from(scope.querySelectorAll(selector))
+    return Array.prototype.slice
+      .call((root || document).querySelectorAll(selector))
       .map(function (el) { return cleanText(el.textContent); })
       .filter(Boolean);
   }
 
   function buildPortfolioCopy() {
     var lines = [];
-    var skillGroups = Array.from(document.querySelectorAll(".skill-group")).map(function (group) {
+
+    var skillGroups = getTexts(".skill-group-heading").map(function (_, i) {
+      var group = document.querySelectorAll(".skill-group")[i];
       var heading = getText(".skill-group-heading", group);
       var items = getTexts(".skill-label", group);
       return heading && items.length ? heading + " " + items.join(", ") : "";
     }).filter(Boolean);
 
-    var projectCards = Array.from(document.querySelectorAll(".portfolio-card")).map(function (card) {
-      var title = getText(".portfolio-card-title", card);
-      var meta = getText(".portfolio-card-meta", card);
-      var desc = getText(".portfolio-card-desc", card);
-      var tags = getTexts(".experience-tag", card);
-      return [
-        title ? "- " + title : "",
-        meta ? "  Type: " + meta : "",
-        desc ? "  Summary: " + desc : "",
-        tags.length ? "  Stack: " + tags.join(", ") : ""
-      ].filter(Boolean).join("\n");
-    }).filter(Boolean);
-
-    function buildExperienceBlock(panelId, sectionTitle) {
-      var panel = document.getElementById(panelId);
-      if (!panel) return "";
-      var items = Array.from(panel.querySelectorAll(".experience-item")).map(function (item) {
-        var role = getText(".experience-role", item);
-        var meta = getText(".experience-meta", item);
-        var desc = getText(".experience-desc", item);
-        var tags = getTexts(".experience-tag", item);
+    var projects = Array.prototype.slice
+      .call(document.querySelectorAll(".work-row"))
+      .map(function (row) {
+        var title = getText(".work-title", row);
+        var kind = getText(".work-year", row);
+        var desc = getText(".work-desc", row);
+        var tags = getTexts(".work-tags li", row);
+        var link = row.querySelector(".work-title a");
         return [
-          role ? "- " + role : "",
-          meta ? "  Meta: " + meta : "",
+          title ? "- " + title.replace(/↗$/, "").trim() : "",
+          kind ? "  Type: " + kind : "",
           desc ? "  Summary: " + desc : "",
-          tags.length ? "  Tech: " + tags.join(", ") : ""
+          tags.length ? "  Stack: " + tags.join(", ") : "",
+          link ? "  Link: " + link.href : ""
         ].filter(Boolean).join("\n");
       }).filter(Boolean);
+
+    function buildEntries(panelId, sectionTitle) {
+      var panel = document.getElementById(panelId);
+      if (!panel) return "";
+      var items = Array.prototype.slice
+        .call(panel.querySelectorAll(".entry"))
+        .map(function (item) {
+          return [
+            getText(".entry-role", item) ? "- " + getText(".entry-role", item) : "",
+            getText(".entry-org", item) ? "  Where: " + getText(".entry-org", item) : "",
+            getText(".entry-when", item) ? "  When: " + getText(".entry-when", item) : "",
+            getText(".entry-desc", item) ? "  Summary: " + getText(".entry-desc", item) : "",
+            getTexts(".entry-tags li", item).length ? "  Tech: " + getTexts(".entry-tags li", item).join(", ") : ""
+          ].filter(Boolean).join("\n");
+        }).filter(Boolean);
       return items.length ? sectionTitle + "\n" + items.join("\n\n") : "";
     }
 
-    lines.push("ABHEER DEY PORTFOLIO");
+    lines.push("ABHEER DEY — SOFTWARE ENGINEER");
     lines.push("");
-    lines.push("Hero");
-    lines.push("Name: " + getText(".hero-name"));
-    lines.push("Role: " + getText(".hero-title"));
-    lines.push("Summary: " + getText(".footer-desc"));
+    lines.push("Intro");
+    lines.push(getText(".hero-title"));
+    lines.push(getText(".hero-lead"));
     lines.push("");
     lines.push("About");
-    lines.push(getText(".about-desc"));
+    lines.push(getText(".lead"));
+    lines.push(getText(".about-body"));
     lines.push("");
     lines.push("Skills");
     lines.push(skillGroups.join("\n"));
     lines.push("");
-    lines.push("Projects");
-    lines.push(projectCards.join("\n\n"));
+    lines.push("Selected work");
+    lines.push(projects.join("\n\n"));
     lines.push("");
-    lines.push(buildExperienceBlock("experience-panel", "Experience"));
+    lines.push(buildEntries("experience-panel", "Experience"));
     lines.push("");
-    lines.push(buildExperienceBlock("certification-panel", "Certifications"));
+    lines.push(buildEntries("certification-panel", "Certifications"));
     lines.push("");
     lines.push("Contact");
-    lines.push(getText(".contact-intro"));
+    lines.push(getTexts(".contact-detail").join(" · "));
 
     return lines.filter(Boolean).join("\n");
   }
@@ -562,36 +367,6 @@ if (copyPageBtn) {
     setCopyButtonLabel(defaultCopyLabel);
   }
 
-  if (!prefersReducedMotion && typeof gsap !== "undefined") {
-    gsap.from(copyPageBtn, {
-      opacity: 0,
-      duration: 0.55,
-      delay: 0.9,
-      ease: "power2.out"
-    });
-
-    if (copyPagePulse) {
-      gsap.to(copyPagePulse, {
-        scale: 1.25,
-        opacity: 0.5,
-        duration: 1.15,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    }
-
-    if (copyPageIcon) {
-      gsap.to(copyPageIcon, {
-        scale: 1.07,
-        duration: 1.15,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    }
-  }
-
   copyPageBtn.addEventListener("click", function () {
     var textToCopy = buildPortfolioCopy();
     if (copyPageStatus) copyPageStatus.textContent = "Copying";
@@ -602,22 +377,6 @@ if (copyPageBtn) {
         copyPageBtn.classList.add("is-copied");
         if (copyPageStatus) copyPageStatus.textContent = "Copied";
         setCopyButtonLabel("Page content copied");
-
-        if (!prefersReducedMotion && typeof gsap !== "undefined" && copyPageIcon) {
-          gsap.fromTo(copyPageIcon,
-            { scale: 0.92, rotate: -12 },
-            {
-              scale: 1.12,
-              rotate: 0,
-              duration: 0.28,
-              yoyo: true,
-              repeat: 1,
-              ease: "power2.out",
-              clearProps: "scale,rotate"
-            }
-          );
-        }
-
         window.clearTimeout(copyResetTimer);
         copyResetTimer = window.setTimeout(resetCopyState, 2200);
       })
@@ -650,19 +409,10 @@ if (experienceTabs.length && experiencePanels.length) {
       panel.hidden = !isActive;
     });
 
-    if (typeof gsap !== "undefined") {
-      gsap.fromTo(nextPanel.querySelectorAll(".experience-item"),
-        { opacity: 0, y: 14 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.35,
-          ease: "power2.out",
-          stagger: 0.08,
-          clearProps: "all"
-        }
-      );
-    }
+    // Re-run the reveal on the panel that just became visible.
+    nextPanel.querySelectorAll("[data-reveal]").forEach(function (el) {
+      el.classList.add("is-in");
+    });
   }
 
   experienceTabs.forEach(function (tab) {
@@ -671,7 +421,6 @@ if (experienceTabs.length && experiencePanels.length) {
     });
   });
 }
-
 // Contact form: validation + submit via Formspree (no redirect), show success/error
 var contactForm = document.querySelector(".contact-form");
 if (contactForm) {
@@ -734,7 +483,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please enter your name.";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (nameInput) nameInput.focus();
       return;
@@ -743,7 +492,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please enter your email.";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (emailInput) emailInput.focus();
       return;
@@ -752,7 +501,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please enter a valid email address.";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (emailInput) emailInput.focus();
       return;
@@ -761,7 +510,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please enter your message.";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (messageInput) messageInput.focus();
       return;
@@ -770,7 +519,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please remove inappropriate language from your name.";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (nameInput) nameInput.focus();
       return;
@@ -779,7 +528,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Phone number should contain only numbers (and + - space parentheses if needed).";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (phoneInput) phoneInput.focus();
       return;
@@ -788,7 +537,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please remove inappropriate language from your message.";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       if (messageInput) messageInput.focus();
       return;
@@ -799,7 +548,7 @@ if (contactForm) {
       if (statusEl) {
         statusEl.hidden = false;
         statusEl.textContent = "Please set your Formspree form ID in the form action (see comment in HTML).";
-        statusEl.style.color = "var(--text-dark)";
+        statusEl.style.color = "var(--ink)";
       }
       return;
     }
@@ -816,14 +565,14 @@ if (contactForm) {
           if (statusEl) {
             statusEl.hidden = false;
             statusEl.textContent = "Thanks! Your message has been sent.";
-            statusEl.style.color = "var(--text-dark)";
+            statusEl.style.color = "var(--ink)";
           }
           contactForm.reset();
         } else {
           if (statusEl) {
             statusEl.hidden = false;
             statusEl.textContent = "Something went wrong. Please try again or email directly.";
-            statusEl.style.color = "var(--text-dark)";
+            statusEl.style.color = "var(--ink)";
           }
         }
       })
@@ -831,7 +580,7 @@ if (contactForm) {
         if (statusEl) {
           statusEl.hidden = false;
           statusEl.textContent = "Something went wrong. Please try again or email directly.";
-          statusEl.style.color = "var(--text-dark)";
+          statusEl.style.color = "var(--ink)";
         }
       })
       .finally(function () {
@@ -840,42 +589,43 @@ if (contactForm) {
   });
 }
 
-// Smooth scroll for anchor links; close mobile nav when a nav link is clicked
+/* --- Mobile nav + smooth anchor scrolling --- */
 var navToggle = document.querySelector(".nav-toggle");
-var header = document.querySelector(".header");
+var siteHeader = document.querySelector(".header");
 var nav = document.querySelector(".nav");
 
 function closeMobileNav() {
-  if (header && header.classList.contains("is-open")) {
-    header.classList.remove("is-open");
+  if (siteHeader && siteHeader.classList.contains("is-open")) {
+    siteHeader.classList.remove("is-open");
     if (navToggle) navToggle.setAttribute("aria-expanded", "false");
   }
 }
 
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+if (navToggle && siteHeader && nav) {
+  navToggle.addEventListener("click", function () {
+    var open = siteHeader.classList.toggle("is-open");
+    navToggle.setAttribute("aria-expanded", String(open));
+    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
   anchor.addEventListener("click", function (e) {
     var href = this.getAttribute("href");
     if (href === "#" || href === "#top") {
       e.preventDefault();
       closeMobileNav();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
       return;
     }
     var target = document.querySelector(href);
     if (target) {
       e.preventDefault();
       closeMobileNav();
-      target.scrollIntoView({ behavior: "smooth" });
+      target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
     }
   });
 });
-
-if (navToggle && header && nav) {
-  navToggle.addEventListener("click", function () {
-    var open = header.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", open);
-  });
-}
 
 /* --- Theme toggle -------------------------------------------------------
    The initial theme is applied by the inline script in <head> so it lands
@@ -907,7 +657,6 @@ if (navToggle && header && nav) {
     label();
   });
 
-  // Follow the OS only while the visitor has not made an explicit choice.
   media.addEventListener("change", function () {
     if (!root.hasAttribute("data-theme")) label();
   });
