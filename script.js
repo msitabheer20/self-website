@@ -123,6 +123,30 @@ if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
 
 var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* --- Smooth (eased) page scrolling --------------------------------------
+   Skipped on touch (native momentum is better than anything we'd emulate),
+   under reduced-motion, and if the CDN fails — in every case the page falls
+   back to normal native scrolling. */
+var lenis = null;
+(function () {
+  if (typeof Lenis === "undefined") return;
+  if (prefersReducedMotion) return;
+  if (window.matchMedia("(pointer: coarse)").matches) return;
+
+  lenis = new Lenis({
+    lerp: 0.1,          // lower = heavier glide
+    wheelMultiplier: 1,
+    smoothWheel: true,
+    touchMultiplier: 2
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    window.requestAnimationFrame(raf);
+  }
+  window.requestAnimationFrame(raf);
+})();
+
 /* --- Reveal on scroll -----------------------------------------------------
    Replaces the old GSAP/ScrollTrigger stack. Items within one container are
    staggered by index so a section resolves as a group rather than all at once. */
@@ -184,12 +208,62 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
   var targetX = 0, targetY = 0, curX = 0, curY = 0;
   var active = false, raf = null;
 
+  var GAP = 26;        // clearance between the text/pointer and the image
+  var textRight = 0;   // right edge of the hovered row's inked text
+  var yearLeft = 0;    // left edge of the row's category label, 0 if none
+
+  function measureText(row) {
+    // Offsetting from the pointer alone is not enough: the title runs past it,
+    // so the image would still cover the link arrow. Clear the whole text block.
+    // These elements are block-level, so their boxes span the full column —
+    // measure the inked text instead, or the image is pushed further right
+    // than it needs to be and covers the category label.
+    var edge = 0;
+    [".work-title", ".work-desc"].forEach(function (sel) {
+      var el = row.querySelector(sel);
+      if (!el) return;
+      var r;
+      try {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        r = range.getBoundingClientRect();
+      } catch (err) {
+        r = el.getBoundingClientRect();
+      }
+      if (r && r.width) edge = Math.max(edge, r.right);
+    });
+    var tags = row.querySelectorAll(".work-tags li");
+    if (tags.length) edge = Math.max(edge, tags[tags.length - 1].getBoundingClientRect().right);
+
+    var year = row.querySelector(".work-year");
+    yearLeft = (year && getComputedStyle(year).display !== "none")
+      ? year.getBoundingClientRect().left : 0;
+
+    return edge;
+  }
+
+  function place(x, y) {
+    var w = preview.offsetWidth || 240;
+    var h = preview.offsetHeight || 150;
+    // Sit right of both the pointer and the row's text, then keep it on screen.
+    var left = Math.max(x + GAP, textRight + GAP);
+    // Also stay off the category label, as long as the gap can fit the image.
+    if (yearLeft && yearLeft - GAP - w >= textRight + GAP) {
+      left = Math.min(left, yearLeft - GAP - w);
+    }
+    left = Math.min(left, window.innerWidth - w - 12);
+    if (left < 12) left = 12;
+    // Transform centres the image on `top`, so clamp by half its height.
+    var top = Math.min(Math.max(y, h / 2 + 12), window.innerHeight - h / 2 - 12);
+    preview.style.left = left + "px";
+    preview.style.top = top + "px";
+  }
+
   function loop() {
     // Ease toward the pointer so the preview trails rather than snaps.
     curX += (targetX - curX) * 0.14;
     curY += (targetY - curY) * 0.14;
-    preview.style.left = curX + "px";
-    preview.style.top = curY + "px";
+    place(curX, curY);
     raf = active ? window.requestAnimationFrame(loop) : null;
   }
 
@@ -204,10 +278,10 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
     row.addEventListener("pointerenter", function (e) {
       if (img.getAttribute("src") !== src) img.setAttribute("src", src);
+      textRight = measureText(row);
       targetX = curX = e.clientX;
       targetY = curY = e.clientY;
-      preview.style.left = curX + "px";
-      preview.style.top = curY + "px";
+      place(curX, curY);
       preview.classList.add("is-visible");
       if (!active) { active = true; loop(); }
     });
@@ -233,6 +307,7 @@ var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     if (!row) { hide(); return; }
     var src = row.getAttribute("data-preview");
     if (src && img.getAttribute("src") !== src) img.setAttribute("src", src);
+    textRight = measureText(row);
   }, { passive: true });
 })();
 
@@ -615,14 +690,22 @@ document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     if (href === "#" || href === "#top") {
       e.preventDefault();
       closeMobileNav();
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      if (lenis) {
+        lenis.scrollTo(0);
+      } else {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      }
       return;
     }
     var target = document.querySelector(href);
     if (target) {
       e.preventDefault();
       closeMobileNav();
-      target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+      if (lenis) {
+        lenis.scrollTo(target);
+      } else {
+        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+      }
     }
   });
 });
