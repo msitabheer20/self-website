@@ -315,8 +315,12 @@ a { color: inherit; text-decoration: none; }
 
 .hero-portrait-img {
   width: 100%; height: 100%;
+  /* The cutout's hair touches the photo's top edge, so any crop from the top
+     cuts the head and the arch clips what's left. Pin it to the top and pad
+     above it instead; the overflow is taken from the legs. */
+  padding-top: 12%;
   object-fit: cover;
-  object-position: center 12%;
+  object-position: center top;
   filter: grayscale(1) contrast(1.04);
   transition: filter 0.7s var(--ease), transform 0.7s var(--ease);
 }
@@ -768,7 +772,7 @@ html.lenis body { height: auto; }
     border-radius: 50%;
     margin-bottom: 0.9rem;
   }
-  .hero-portrait-img { object-position: center 8%; }
+  .hero-portrait-img { padding-top: 7%; }
   .about-grid,
   .contact-grid { grid-template-columns: 1fr; }
   .capabilities { grid-template-columns: 1fr; gap: 1.75rem; }
