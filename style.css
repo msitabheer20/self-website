@@ -491,6 +491,9 @@ a { color: inherit; text-decoration: none; }
   margin-top: 1.25rem;
   border: 1px solid var(--rule);
 }
+/* The script sets `hidden` on a thumbnail whose file is missing. The class
+   selector alone would lose to the mobile `display: block` below. */
+.work-inline-img[hidden] { display: none; }
 
 /* Cursor-following preview */
 .work-preview {

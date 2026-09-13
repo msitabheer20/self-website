@@ -272,11 +272,22 @@ var lenis = null;
     targetY = e.clientY;
   });
 
+  // A row can list its image before the file exists. Probe it once so hovering
+  // such a row shows nothing rather than an empty frame.
+  function hasPreview(row) {
+    return row.getAttribute("data-preview-ok") === "true";
+  }
+
   Array.prototype.forEach.call(list.querySelectorAll(".work-row"), function (row) {
     var src = row.getAttribute("data-preview");
     if (!src) return;
 
+    var probe = new Image();
+    probe.onload = function () { row.setAttribute("data-preview-ok", "true"); };
+    probe.src = src;
+
     row.addEventListener("pointerenter", function (e) {
+      if (!hasPreview(row)) return;
       if (img.getAttribute("src") !== src) img.setAttribute("src", src);
       textRight = measureText(row);
       targetX = curX = e.clientX;
@@ -304,12 +315,20 @@ var lenis = null;
     if (!active) return;
     var under = document.elementFromPoint(targetX, targetY);
     var row = under && under.closest ? under.closest(".work-row") : null;
-    if (!row) { hide(); return; }
+    if (!row || !hasPreview(row)) { hide(); return; }
     var src = row.getAttribute("data-preview");
     if (src && img.getAttribute("src") !== src) img.setAttribute("src", src);
     textRight = measureText(row);
   }, { passive: true });
 })();
+
+/* --- Mobile work thumbnails: drop any whose file is missing --- */
+Array.prototype.forEach.call(document.querySelectorAll(".work-inline-img"), function (el) {
+  function drop() { el.hidden = true; }
+  // An image can fail before this script runs; `complete` with no size catches that.
+  if (el.complete && el.naturalWidth === 0 && el.getAttribute("src")) drop();
+  else el.addEventListener("error", drop);
+});
 
 /* --- Copy page content for AI tools --- */
 var copyPageBtn = document.querySelector(".copy-page-btn");
